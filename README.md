@@ -40,7 +40,7 @@ The core agent application is implemented with the **Agent Development Kit (ADK)
 - ADK function tool `generate_room_image(room, paint_name)` that generates high-resolution room previews.
 - Uses **`gemini-3.1-flash-lite-image`** on Vertex AI with the paint's exact name and hex code retrieved from Firestore.
 - In-memory processing: saves images as ADK session artifacts and streams bytes directly to a public **Google Cloud Storage** bucket without writing to local disk.
-- Returns public image links and embeds visual previews directly into the chat response.
+- Returns a public image url.
 
 ---
 
@@ -63,7 +63,6 @@ The following capabilities are planned for upcoming iterations:
 | **Orchestration** | Agent Development Kit (ADK) + `agents-cli` | Agent lifecycle, tool calling, session artifacts |
 | **Database** | Google Cloud Firestore | Catalog storage for paint shades and metadata |
 | **Object Storage** | Google Cloud Storage | Public hosting for generated room visual previews |
-| **Demo Soundtrack** | Lyria 2 (`lyria-002`) on Vertex AI | Generated instrumental background music for demo |
 
 ---
 
@@ -77,24 +76,27 @@ The following capabilities are planned for upcoming iterations:
 
 ### Running the Agent
 
-1. **Install dependencies**:
+1. **Configure project ID**:
+   - Replace `PROJECT_ID` in `app/agent.py` and `seed_paints.py` with your own GCP project.
+
+2. **Install dependencies**:
    ```bash
    cd paint-pal
    uv sync
    ```
 
-2. **Seed the Firestore paint catalog** (if not already seeded):
+3. **Seed the Firestore paint catalog** (if not already seeded):
    ```bash
    python seed_paints.py
    ```
 
-3. **Test the agent via CLI**:
+4. **Test the agent via CLI**:
    ```bash
    agents-cli run "I want a calm bedroom, what colors do you suggest?"
    agents-cli run "Show me the bedroom painted in Sage Whisper"
    ```
 
-4. **Launch the interactive playground**:
+5. **Launch the interactive playground**:
    ```bash
    agents-cli playground
    ```
